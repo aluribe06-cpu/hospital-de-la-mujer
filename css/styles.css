@@ -115,13 +115,19 @@ body {
 }
 
 .brand-logo-img {
-  height: 52px;
+  height: 60px;
   width: auto;
+  max-width: 240px;
   background-color: #ffffff;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
   object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.brand-logo-img:hover {
+  transform: scale(1.02);
 }
 
 .brand-titles {
@@ -1250,8 +1256,9 @@ body {
 }
 
 .report-logo-img {
-  height: 60px;
+  height: 75px;
   width: auto;
+  max-width: 280px;
   object-fit: contain;
 }
 
@@ -1330,8 +1337,10 @@ body {
   }
 
   .brand-logo-img {
-    height: 40px;
-    padding: 3px 6px;
+    height: 48px;
+    padding: 4px 8px;
+    max-width: 180px;
+    border-radius: var(--radius-sm);
   }
 
   .brand-titles h1 {
