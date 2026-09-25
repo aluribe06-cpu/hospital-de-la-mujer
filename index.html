@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0c4a34">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Farmacia HMT">
+  <meta name="description" content="Sistema de Gestión de Farmacia Hospitalaria y Abasto del Hospital de la Mujer en Tepic, Nayarit. Servicios de Salud IMSS-Bienestar.">
+  <link rel="icon" type="image/png" href="Logo-hospital-de-la-mujer-servicios-de-salud-imss-bienestar.png">
+  <link rel="apple-touch-icon" href="Logo-hospital-de-la-mujer-servicios-de-salud-imss-bienestar.png">
+  <title>Farmacia Hospitalaria - Hospital de la Mujer de Tepic, Nayarit | IMSS-Bienestar</title>
+  
+  <!-- Tipografía Google Fonts Oficial -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Estilos del Sistema -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER PRINCIPAL INSTITUCIONAL
+       ========================================================================== -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <img src="Logo-hospital-de-la-mujer-servicios-de-salud-imss-bienestar.png" 
+             alt="Logotipo Oficial IMSS-Bienestar Servicios de Salud" 
+             class="brand-logo-img">
+        <div class="brand-titles">
+          <span class="brand-badge">
+            <i class="fa-solid fa-flag"></i> Programa Federal Nacional
+          </span>
+          <h1>Hospital de la Mujer · Tepic, Nayarit</h1>
+          <div class="hospital-sub">
+            <span>Sistema Integral de Farmacia Hospitalaria y Abasto</span>
+            <span class="clues">CLUES: NTSMP000452</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-meta">
+        <!-- Badge de Usuario y Rol Activo (RBAC) -->
+        <div class="user-security-badge">
+          <div class="user-avatar-circle" id="current-user-avatar">MR</div>
+          <div class="user-info-text">
+            <span class="user-name-label" id="current-user-name">Q.F.B. Mariana E. Ramos</span>
+            <select class="user-role-select" id="select-active-role" title="Cambiar usuario o rol de seguridad">
+              <option value="RESPONSABLE_SANITARIO">Q.F.B. Mariana E. Ramos (Responsable Sanitario)</option>
+              <option value="AUXILIAR_FARMACIA">Aux. Marco Tulio Estrada (Auxiliar de Farmacia)</option>
+              <option value="MEDICO_PRESCRIPTOR">Dra. Gabriela Solís (Médico Gineco-Obstetra)</option>
+              <option value="AUDITOR_OIC">Lic. Fernando Bañuelos (Auditor OIC / Solo Lectura)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="meta-item">
+          <button class="security-indicator" id="btn-ver-seguridad" title="Ver Estado de Seguridad Web, Cifrado y NOM-024" style="background: none; border: none; cursor: pointer; color: inherit; font: inherit; padding: 0;">
+            <i class="fa-solid fa-shield-halved" style="color: #4ade80;"></i> TLS 1.3 · NOM-024-SSA3
+          </button>
+          <span class="meta-value" style="font-size: 0.72rem; color: var(--slate-300); display: block;">
+            Operador: BIRMEX / Almacén Central
+          </span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-lock-session" title="Bloquear Terminal de Farmacia (Seguridad Sanitaria)">
+          <i class="fa-solid fa-lock"></i> <span class="btn-text-desktop">Bloquear</span>
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btn-abrir-bitacora" title="Bitácora Inmutable de Auditoría">
+          <i class="fa-solid fa-shield-halved"></i> <span class="btn-text-desktop">Bitácora</span>
+        </button>
+        <button class="btn btn-gold btn-sm" id="btn-imprimir-reporte-ejecutivo" title="Imprimir Reporte Oficial con Logotipo">
+          <i class="fa-solid fa-print"></i> <span class="btn-text-desktop">Reporte Oficial</span>
+        </button>
+        <button class="btn btn-primary btn-sm" id="btn-nueva-entrada-header">
+          <i class="fa-solid fa-circle-plus"></i> <span class="btn-text-desktop">Entrada</span>
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btn-nueva-salida-header">
+          <i class="fa-solid fa-prescription-bottle-medical"></i> <span class="btn-text-desktop">Dispensar</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       BARRA DE NAVEGACIÓN POR PESTAÑAS (TABS)
+       ========================================================================== -->
+  <nav class="tabs-navigation">
+    <div class="tabs-container">
+      <div class="nav-tabs" id="main-nav-tabs">
+        <button class="nav-tab-btn active" data-tab="tab-dashboard">
+          <i class="fa-solid fa-chart-line"></i> Tablero Ejecutivo & Gráficas
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-inventario">
+          <i class="fa-solid fa-boxes-stacked"></i> Catálogo e Inventario
+          <span class="nav-tab-badge" id="badge-total-items">15</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-entradas">
+          <i class="fa-solid fa-dolly"></i> Entradas & Abasto BIRMEX
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-salidas">
+          <i class="fa-solid fa-file-prescription"></i> Salidas & Dispensación (PEPS)
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-lotes">
+          <i class="fa-solid fa-barcode"></i> Lotes & Semáforo de Caducidad
+          <span class="nav-tab-badge badge-danger" id="badge-lotes-alerta">2</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-donaciones">
+          <i class="fa-solid fa-heart-pulse"></i> Donaciones de Medicamentos
+          <span class="nav-tab-badge badge-donacion" id="badge-donaciones-count">2</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-reportes">
+          <i class="fa-solid fa-file-excel"></i> Reportes en Excel & Carga Masiva
+        </button>
+      </div>
+
+      <div class="quick-bar-actions">
+        <button class="btn btn-excel btn-sm" id="btn-export-excel-quick">
+          <i class="fa-solid fa-file-excel"></i> Exportar Excel
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       CONTENIDO PRINCIPAL
+       ========================================================================== -->
+  <main class="main-content">
+
+    <!-- Banner de Protocolo de Suministro y Normativa Federal -->
+    <div class="protocolo-banner">
+      <div class="protocolo-info">
+        <i class="fa-solid fa-shield-halved" style="color: var(--imss-green-700); font-size: 1.25rem;"></i>
+        <div>
+          <strong>Marco Operativo Institucional:</strong> Dispensación hospitalaria bajo norma <strong>PEPS / FEFO</strong> (Primeras Caducidades, Primeras Salidas). Suministro coordinado con <strong>BIRMEX</strong>, <strong>Almacén Central Estatal IMSS-Bienestar Nayarit</strong> y <strong>COFEPRIS</strong>.
+        </div>
+      </div>
+      <div class="protocolo-badges">
+        <span class="proto-tag birmex"><i class="fa-solid fa-truck"></i> BIRMEX / Almacén Central</span>
+        <span class="proto-tag fefo"><i class="fa-solid fa-clock-rotate-left"></i> PEPS / FEFO Activo</span>
+        <span class="proto-tag mater"><i class="fa-solid fa-kit-medical"></i> Código Mater Prioritario</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         PESTAÑA 1: TABLERO EJECUTIVO & GRÁFICAS
+         ====================================================================== -->
+    <section id="tab-dashboard" class="tab-pane active">
+      
+      <!-- Cuadrícula de KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-green">
+          <div class="kpi-content">
+            <span class="kpi-title">Claves en Catálogo</span>
+            <span class="kpi-value" id="kpi-total-claves">15</span>
+            <span class="kpi-subtext">
+              <span class="highlight positive">100%</span> en Cuadro Básico IMSS-B
+            </span>
+          </div>
+          <div class="kpi-icon">
+            <i class="fa-solid fa-pills"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-blue">
+          <div class="kpi-content">
+            <span class="kpi-title">Existencia Física Total</span>
+            <span class="kpi-value" id="kpi-existencia-total">3,892</span>
+            <span class="kpi-subtext">
+              Piezas en andén y farmacia
+            </span>
+          </div>
+          <div class="kpi-icon">
+            <i class="fa-solid fa-boxes-stacked"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-red">
+          <div class="kpi-content">
+            <span class="kpi-title">Lotes en Alerta (3-6m)</span>
+            <span class="kpi-value" id="kpi-lotes-alerta">2</span>
+            <span class="kpi-subtext">
+              <span class="highlight warning">73 piezas</span> en rotación prioritaria
+            </span>
+          </div>
+          <div class="kpi-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-purple">
+          <div class="kpi-content">
+            <span class="kpi-title">Insumos Donados</span>
+            <span class="kpi-value" id="kpi-total-donaciones">207</span>
+            <span class="kpi-subtext">
+              <span class="highlight">2 Actas</span> de entrega-recepción
+            </span>
+          </div>
+          <div class="kpi-icon">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-gold">
+          <div class="kpi-content">
+            <span class="kpi-title">Nivel de Abasto</span>
+            <span class="kpi-value" id="kpi-nivel-abasto">98.4%</span>
+            <span class="kpi-subtext">
+              <span class="highlight positive"><i class="fa-solid fa-arrow-trend-up"></i> Óptimo</span> en Código Mater
+            </span>
+          </div>
+          <div class="kpi-icon">
+            <i class="fa-solid fa-stethoscope"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Gráficas Interactivas -->
+      <div class="charts-section">
+        <div class="charts-header">
+          <div class="charts-title-group">
+            <h2><i class="fa-solid fa-chart-column" style="color: var(--imss-green-700);"></i> Análisis Estadístico de Movimientos y Consumo</h2>
+            <p>Monitoreo en tiempo real de entradas (BIRMEX/Almacén Central), salidas por servicio hospitalario y donaciones</p>
+          </div>
+
+          <!-- Selector de Periodo: Diario, Semanal, Mensual -->
+          <div class="period-selector" id="period-selector-container">
+            <button class="period-btn active" data-period="diario">
+              <i class="fa-solid fa-calendar-day"></i> Diario (7 Días)
+            </button>
+            <button class="period-btn" data-period="semanal">
+              <i class="fa-solid fa-calendar-week"></i> Semanal (6 Semanas)
+            </button>
+            <button class="period-btn" data-period="mensual">
+              <i class="fa-solid fa-calendar-days"></i> Mensual (Semestral)
+            </button>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <!-- Gráfica 1: Línea / Curva de Entradas vs Salidas -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">
+                <i class="fa-solid fa-chart-line" style="color: var(--imss-green-800);"></i> 
+                Curva Cronológica: Entradas (Abasto) vs Salidas (Dispensación)
+              </span>
+              <div class="chart-card-legend">
+                <span class="legend-item"><span class="legend-dot legend-entradas"></span> Entradas (Piezas)</span>
+                <span class="legend-item"><span class="legend-dot legend-salidas"></span> Salidas (Piezas)</span>
+              </div>
+            </div>
+
+            <div class="chart-svg-container" id="line-chart-container">
+              <!-- SVG generado dinámicamente por JavaScript -->
+            </div>
+
+            <div class="chart-sub-kpis">
+              <div class="sub-kpi-box">
+                <div class="sub-kpi-label">Total Entradas Periodo</div>
+                <div class="sub-kpi-val" id="chart-kpi-entradas" style="color: var(--imss-green-700);">1,620 pzas</div>
+              </div>
+              <div class="sub-kpi-box">
+                <div class="sub-kpi-label">Total Salidas Periodo</div>
+                <div class="sub-kpi-val" id="chart-kpi-salidas" style="color: var(--mater-red);">806 pzas</div>
+              </div>
+              <div class="sub-kpi-box">
+                <div class="sub-kpi-label">Recetas Surtidas</div>
+                <div class="sub-kpi-val" id="chart-kpi-recetas" style="color: #0284c7;">403 recetas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfica 2: Barras de Consumo por Servicio del Hospital de la Mujer -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title">
+                <i class="fa-solid fa-hospital-user" style="color: var(--imss-gold-600);"></i> 
+                Consumo por Servicio Hospitalario
+              </span>
+            </div>
+
+            <div class="chart-svg-container" id="bar-chart-container">
+              <!-- Gráfica de Barras SVG generada por JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen de Semáforo de Caducidades en Dashboard -->
+      <div class="charts-section" style="margin-top: 1.5rem;">
+        <div class="charts-header">
+          <div class="charts-title-group">
+            <h2><i class="fa-solid fa-traffic-light" style="color: var(--imss-gold-600);"></i> Auditoría de Caducidades bajo Norma PEPS / FEFO</h2>
+            <p>Control estricto de fechas de vencimiento para garantizar cero mermas por caducidad</p>
+          </div>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr 1fr;">
+          <!-- Gráfica 3: Dona de Semáforo de Caducidad -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-card-title"><i class="fa-solid fa-chart-pie"></i> Distribución de Lotes por Semáforo</span>
+            </div>
+            <div class="chart-svg-container" id="donut-chart-container" style="height: 220px;">
+              <!-- Donut SVG generado dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Tabla de Lotes con Próxima Caducidad -->
+          <div class="chart-card" style="justify-content: flex-start;">
+            <div class="chart-card-header">
+              <span class="chart-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Lotes con Atención Inmediata (PEPS)</span>
+            </div>
+            <div class="table-responsive" style="max-height: 220px;">
+              <table class="custom-table" id="tabla-lotes-resumen">
+                <thead>
+                  <tr>
+                    <th>Lote</th>
+                    <th>Medicamento</th>
+                    <th>Caducidad</th>
+                    <th>Stock</th>
+                    <th>Semáforo</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-lotes-resumen">
+                  <!-- Llenado dinámico -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 2: CATÁLOGO E INVENTARIO GENERAL
+         ====================================================================== -->
+    <section id="tab-inventario" class="tab-pane">
+      <div class="data-section-card">
+        <div class="table-toolbar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" id="search-inventario" placeholder="Buscar por clave CNIS, medicamento, presentación...">
+          </div>
+
+          <div class="table-filters">
+            <select class="filter-select" id="filter-cat-inventario">
+              <option value="">Todas las Categorías</option>
+              <option value="Código Mater / Emergencia Obstétrica">Código Mater / Emergencia Obstétrica</option>
+              <option value="Tocoquirúrgica y Quirófanos">Tocoquirúrgica y Quirófanos</option>
+              <option value="Gineco-Obstetricia y Hospitalización">Gineco-Obstetricia y Hospitalización</option>
+              <option value="UCIN y Neonatología">UCIN y Neonatología</option>
+              <option value="Soluciones y Electrólitos">Soluciones y Electrólitos</option>
+              <option value="Consulta Externa y Control Prenatal">Consulta Externa y Control Prenatal</option>
+              <option value="Donacion">Insumos de Donación</option>
+            </select>
+
+            <select class="filter-select" id="filter-frio-inventario">
+              <option value="">Red de Frío (Todos)</option>
+              <option value="si">Solo Red de Frío (2°C a 8°C)</option>
+              <option value="no">Ambiente (15°C a 25°C)</option>
+            </select>
+
+            <button class="btn btn-primary btn-sm" id="btn-nueva-clave">
+              <i class="fa-solid fa-plus"></i> Nueva Clave
+            </button>
+            <button class="btn btn-excel btn-sm" id="btn-export-inventario-excel">
+              <i class="fa-solid fa-download"></i> Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table" id="tabla-inventario">
+            <thead>
+              <tr>
+                <th>Clave CNIS</th>
+                <th>Medicamento / Concentración</th>
+                <th>Categoría</th>
+                <th>Presentación</th>
+                <th>Red Frío</th>
+                <th>Stock Físico</th>
+                <th>Nivel</th>
+                <th>Lotes Activos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-inventario">
+              <!-- Filas generadas dinámicamente -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">Gran Total Consolidado</td>
+                <td id="tfoot-total-piezas">3,892 pzas</td>
+                <td colspan="3" id="tfoot-resumen-claves">15 claves activas</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 3: ENTRADAS Y ABASTO BIRMEX
+         ====================================================================== -->
+    <section id="tab-entradas" class="tab-pane">
+      <div class="data-section-card">
+        <div class="table-toolbar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" id="search-entradas" placeholder="Buscar por remisión, lote, medicamento, proveedor...">
+          </div>
+
+          <div class="table-filters">
+            <select class="filter-select" id="filter-origen-entradas">
+              <option value="">Todos los Proveedores</option>
+              <option value="BIRMEX">BIRMEX (Compra Consolidada)</option>
+              <option value="Almacén Central">Almacén Central Estatal IMSS-B</option>
+              <option value="Megafarmacia">Megafarmacia del Bienestar</option>
+              <option value="Traspaso">Traspaso Interhospitalario</option>
+              <option value="Donación">Donación Autorizada</option>
+            </select>
+
+            <button class="btn btn-primary" id="btn-registrar-entrada">
+              <i class="fa-solid fa-dolly"></i> Registrar Entrada de Medicamento
+            </button>
+            <button class="btn btn-excel" id="btn-export-entradas-excel">
+              <i class="fa-solid fa-download"></i> Exportar Entradas
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table" id="tabla-entradas">
+            <thead>
+              <tr>
+                <th>ID Entrada</th>
+                <th>Fecha y Hora</th>
+                <th>Origen / Proveedor</th>
+                <th>Documento / Remisión</th>
+                <th>Clave CNIS</th>
+                <th>Medicamento</th>
+                <th>Lote</th>
+                <th>Caducidad</th>
+                <th>Piezas</th>
+                <th>Valor Ref.</th>
+                <th>Observaciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-entradas">
+              <!-- Filas generadas dinámicamente -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="8">Total de Piezas Ingresadas</td>
+                <td id="tfoot-piezas-entradas">1,500 pzas</td>
+                <td colspan="2" id="tfoot-monto-entradas">$41,750.00</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 4: SALIDAS Y DISPENSACIÓN (PEPS / FEFO)
+         ====================================================================== -->
+    <section id="tab-salidas" class="tab-pane">
+      <div class="data-section-card">
+        <div class="table-toolbar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" id="search-salidas" placeholder="Buscar por paciente, servicio, expediente, medicamento...">
+          </div>
+
+          <div class="table-filters">
+            <select class="filter-select" id="filter-servicio-salidas">
+              <option value="">Todos los Servicios</option>
+              <option value="Tocoquirúrgica">Tocoquirúrgica (Expulsión/Cesáreas)</option>
+              <option value="Código Mater">Código Mater / Carro Rojo</option>
+              <option value="UCIN">UCIN (Neonatología)</option>
+              <option value="Hospitalización">Hospitalización Gineco-Obstétrica</option>
+              <option value="Triage">Triage Obstétrico y Urgencias</option>
+              <option value="Consulta Externa">Consulta Externa</option>
+            </select>
+
+            <button class="btn btn-primary" id="btn-registrar-salida">
+              <i class="fa-solid fa-prescription-bottle-medical"></i> Nueva Dispensación / Receta
+            </button>
+            <button class="btn btn-excel" id="btn-export-salidas-excel">
+              <i class="fa-solid fa-download"></i> Exportar Salidas
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table" id="tabla-salidas">
+            <thead>
+              <tr>
+                <th>ID Salida</th>
+                <th>Fecha y Hora</th>
+                <th>Tipo</th>
+                <th>Servicio / Solicitante</th>
+                <th>Paciente / Cama</th>
+                <th>Medicamento</th>
+                <th>Lote Asignado (PEPS)</th>
+                <th>Caducidad</th>
+                <th>Cant.</th>
+                <th>Diagnóstico / Motivo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-salidas">
+              <!-- Filas generadas dinámicamente -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="8">Total Piezas Dispensadas</td>
+                <td id="tfoot-piezas-salidas">97 pzas</td>
+                <td colspan="2">Registro auditado bajo norma PEPS</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 5: LOTES Y SEMÁFORO DE CADUCIDAD
+         ====================================================================== -->
+    <section id="tab-lotes" class="tab-pane">
+      <div class="data-section-card">
+        <div class="table-toolbar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" id="search-lotes" placeholder="Buscar por número de lote, clave, medicamento, fabricante...">
+          </div>
+
+          <div class="table-filters">
+            <select class="filter-select" id="filter-semaforo-lotes">
+              <option value="">Todos los Estados de Semáforo</option>
+              <option value="verde">🟢 Vigentes (> 6 meses)</option>
+              <option value="amarillo">🟡 Próximos a Vencer (3 a 6 meses)</option>
+              <option value="rojo">🔴 Críticos (< 3 meses)</option>
+              <option value="negro">⚫ Caducados / Cuarentena</option>
+            </select>
+
+            <button class="btn btn-excel" id="btn-export-lotes-excel">
+              <i class="fa-solid fa-download"></i> Exportar Lotes
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table" id="tabla-lotes">
+            <thead>
+              <tr>
+                <th>Lote</th>
+                <th>Clave CNIS</th>
+                <th>Medicamento</th>
+                <th>Fabricante</th>
+                <th>Origen</th>
+                <th>Caducidad</th>
+                <th>Días Restantes</th>
+                <th>Semáforo</th>
+                <th>Existencia</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-lotes">
+              <!-- Filas generadas dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 6: APARTADO DE DONACIONES DE MEDICAMENTOS
+         ====================================================================== -->
+    <section id="tab-donaciones" class="tab-pane">
+      <div class="data-section-card" style="border-top: 4px solid var(--donacion-purple);">
+        <div class="table-toolbar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" id="search-donaciones" placeholder="Buscar por folio de acta, donante, medicamento, lote...">
+          </div>
+
+          <div class="table-filters">
+            <button class="btn btn-purple" id="btn-registrar-donacion">
+              <i class="fa-solid fa-file-circle-plus"></i> Registrar Nueva Donación (Acta Oficial)
+            </button>
+            <button class="btn btn-excel" id="btn-export-donaciones-excel">
+              <i class="fa-solid fa-file-excel"></i> Exportar Libro de Donaciones
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner Explicativo de Normativa de Donación COFEPRIS / IMSS-Bienestar -->
+        <div style="background: var(--donacion-purple-bg); border: 1px solid var(--donacion-purple-border); border-radius: var(--radius-sm); padding: 0.85rem 1rem; margin-bottom: 1.25rem; font-size: 0.8rem; color: #4c1d95;">
+          <i class="fa-solid fa-circle-info"></i> <strong>Normativa Institucional de Donaciones:</strong> Todo medicamento donado al Hospital de la Mujer debe contar con <strong>Acta de Entrega-Recepción</strong>, tener una vigencia de caducidad mínima útil (> 6-10 meses), empaques originales inviolables, sin leyendas de muestra médica no negociable, y estricto control de trazabilidad independiente de los presupuestos ordinarios de BIRMEX.
+        </div>
+
+        <h3 style="font-family: var(--font-heading); font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--slate-800);">
+          <i class="fa-solid fa-file-signature" style="color: var(--donacion-purple);"></i> Actas Oficiales de Entrega-Recepción de Donación Registradas
+        </h3>
+
+        <div class="table-responsive" style="margin-bottom: 1.5rem;">
+          <table class="custom-table" id="tabla-donaciones">
+            <thead>
+              <tr>
+                <th>Folio de Acta</th>
+                <th>Fecha</th>
+                <th>Donante (Institución / Persona)</th>
+                <th>RFC / Cédula</th>
+                <th>Insumos Amparados</th>
+                <th>Piezas</th>
+                <th>Valor Estimado</th>
+                <th>Estatus Sanitario</th>
+                <th>Acta Oficial</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-donaciones">
+              <!-- Filas de actas generadas dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-family: var(--font-heading); font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--slate-800);">
+          <i class="fa-solid fa-boxes-stacked" style="color: var(--donacion-purple);"></i> Inventario de Medicamentos Recibidos por Donación en Resguardo
+        </h3>
+
+        <div class="table-responsive">
+          <table class="custom-table" id="tabla-inventario-donaciones">
+            <thead>
+              <tr>
+                <th>Clave CNIS</th>
+                <th>Medicamento</th>
+                <th>Lote Donado</th>
+                <th>Caducidad</th>
+                <th>Stock Donación</th>
+                <th>Folio Acta</th>
+                <th>Donante</th>
+                <th>Dispensar</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-inventario-donaciones">
+              <!-- Llenado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 7: REPORTES EN EXCEL & IMPORTACIÓN MASIVA
+         ====================================================================== -->
+    <section id="tab-reportes" class="tab-pane">
+      <div class="data-section-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--slate-900); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-file-excel" style="color: #107c41;"></i> Centro de Exportación e Importación de Reportes en Excel (.xlsx)
+        </h2>
+
+        <!-- Cuadrícula de Reportes Descargables en Excel -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+          
+          <div class="kpi-card" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--slate-800);">Inventario General Consolidado</span>
+              <i class="fa-solid fa-table-list" style="color: #107c41; font-size: 1.25rem;"></i>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--slate-500);">
+              Catálogo completo con existencias físicas, lotes, caducidades y estatus de semáforo.
+            </p>
+            <button class="btn btn-excel btn-sm" id="btn-rep-excel-inventario">
+              <i class="fa-solid fa-download"></i> Descargar Excel (.xlsx)
+            </button>
+          </div>
+
+          <div class="kpi-card" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--slate-800);">Kardex de Entradas (BIRMEX)</span>
+              <i class="fa-solid fa-dolly" style="color: var(--imss-green-700); font-size: 1.25rem;"></i>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--slate-500);">
+              Detalle cronológico de remisiones, facturas, lotes recibidos y temperaturas de red de frío.
+            </p>
+            <button class="btn btn-excel btn-sm" id="btn-rep-excel-entradas">
+              <i class="fa-solid fa-download"></i> Descargar Excel (.xlsx)
+            </button>
+          </div>
+
+          <div class="kpi-card" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--slate-800);">Salidas por Servicio Hospitalario</span>
+              <i class="fa-solid fa-file-prescription" style="color: var(--mater-red); font-size: 1.25rem;"></i>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--slate-500);">
+              Dispensación por Tocoquirúrgica, Código Mater, UCIN, recetas y vales hospitalarios.
+            </p>
+            <button class="btn btn-excel btn-sm" id="btn-rep-excel-salidas">
+              <i class="fa-solid fa-download"></i> Descargar Excel (.xlsx)
+            </button>
+          </div>
+
+          <div class="kpi-card" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--slate-800);">Libro Oficial de Donaciones</span>
+              <i class="fa-solid fa-hand-holding-heart" style="color: var(--donacion-purple); font-size: 1.25rem;"></i>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--slate-500);">
+              Actas de entrega-recepción, donantes registrados, medicamentos amparados y trazabilidad.
+            </p>
+            <button class="btn btn-purple btn-sm" id="btn-rep-excel-donaciones">
+              <i class="fa-solid fa-download"></i> Descargar Libro de Donaciones
+            </button>
+          </div>
+
+          <div class="kpi-card" style="flex-direction: column; align-items: stretch; gap: 0.75rem; border: 2px solid var(--imss-gold-500); background: linear-gradient(to bottom, #ffffff, var(--imss-gold-50));">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--imss-green-900);">
+                <i class="fa-solid fa-award" style="color: var(--imss-gold-600);"></i> Reporte Oficial con Logotipo
+              </span>
+              <img src="Logo-hospital-de-la-mujer-servicios-de-salud-imss-bienestar.png" style="height: 28px; width: auto;" alt="Logo IMSS-Bienestar">
+            </div>
+            <p style="font-size: 0.76rem; color: var(--slate-600);">
+              Dictamen técnico con membrete oficial del Hospital de la Mujer, semáforo PEPS y firmas de Q.F.B., Subdirector Médico y OIC.
+            </p>
+            <button class="btn btn-gold btn-sm" id="btn-rep-oficial-imprimir">
+              <i class="fa-solid fa-print"></i> Ver e Imprimir Reporte Oficial (PDF)
+            </button>
+          </div>
+
+          <div class="kpi-card" style="flex-direction: column; align-items: stretch; gap: 0.75rem; border: 1px solid var(--imss-green-600); background: linear-gradient(to bottom, #ffffff, var(--imss-green-50));">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--imss-green-900);">
+                <i class="fa-solid fa-receipt" style="color: var(--imss-green-700);"></i> Vale de Dispensación con Logo
+              </span>
+              <i class="fa-solid fa-print" style="color: var(--imss-green-800); font-size: 1.2rem;"></i>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--slate-600);">
+              Comprobante de surtimiento hospitalario individualizado con código de barras, insumo PEPS y acuse de recibo.
+            </p>
+            <button class="btn btn-primary btn-sm" id="btn-rep-vale-imprimir">
+              <i class="fa-solid fa-receipt"></i> Ver Último Vale Oficial
+            </button>
+          </div>
+        </div>
+
+        <!-- Módulo de Importación Masiva de Excel -->
+        <div style="border-top: 2px dashed var(--slate-300); padding-top: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1rem; color: var(--slate-900);">
+                <i class="fa-solid fa-file-import" style="color: var(--imss-green-700);"></i> Importación Masiva de Insumos desde Archivo Excel (.xlsx)
+              </h3>
+              <p style="font-size: 0.78rem; color: var(--slate-500);">
+                Cargue archivos de inventario o remisiones de BIRMEX/Almacén Central directamente al sistema.
+              </p>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btn-descargar-plantilla-excel">
+              <i class="fa-solid fa-file-arrow-down"></i> Descargar Plantilla Excel Oficial
+            </button>
+          </div>
+
+          <div class="dropzone-container" id="excel-dropzone">
+            <i class="fa-solid fa-file-excel dropzone-icon"></i>
+            <div class="dropzone-title">Arrastre y suelte aquí su archivo de Excel (.xlsx / .xls)</div>
+            <div class="dropzone-subtitle">o haga clic para seleccionar desde su equipo</div>
+            <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" style="display: none;">
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('excel-file-input').click();">
+              <i class="fa-solid fa-folder-open"></i> Seleccionar Archivo
+            </button>
+          </div>
+
+          <!-- Vista previa de datos importados antes de confirmar -->
+          <div id="import-preview-container" style="display: none; margin-top: 1.5rem;">
+            <h4 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--slate-800);">
+              <i class="fa-solid fa-eye"></i> Vista Previa de Filas Detectadas en el Archivo (<span id="import-preview-count">0</span> filas)
+            </h4>
+            <div class="table-responsive" style="max-height: 250px;">
+              <table class="custom-table" id="tabla-import-preview">
+                <thead>
+                  <tr>
+                    <th>Clave</th>
+                    <th>Medicamento</th>
+                    <th>Lote</th>
+                    <th>Caducidad</th>
+                    <th>Cantidad</th>
+                    <th>Origen</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-import-preview">
+                  <!-- Filas previas -->
+                </tbody>
+              </table>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
+              <button class="btn btn-secondary" id="btn-cancel-import">Cancelar</button>
+              <button class="btn btn-primary" id="btn-confirm-import">
+                <i class="fa-solid fa-check-double"></i> Confirmar e Incorporar al Inventario
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 0: NUEVA CLAVE DE MEDICAMENTO AL CATÁLOGO
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-nueva-clave">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">
+          <i class="fa-solid fa-pills"></i> Alta de Nueva Clave en Catálogo Farmacéutico
+        </span>
+        <button class="modal-close-btn" data-close="modal-nueva-clave">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-nueva-clave">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Clave CNIS (12 dígitos) <span class="required">*</span></label>
+              <input type="text" class="form-control" id="clave-cnis-input" placeholder="Ej. 010.000.2141.00" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nombre Genérico <span class="required">*</span></label>
+              <input type="text" class="form-control" id="clave-nombre-input" placeholder="Ej. Oxitocina" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Concentración <span class="required">*</span></label>
+              <input type="text" class="form-control" id="clave-concentracion-input" placeholder="Ej. 5 UI / 1 mL" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Forma Farmacéutica <span class="required">*</span></label>
+              <input type="text" class="form-control" id="clave-forma-input" placeholder="Ej. Solución Inyectable" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Presentación <span class="required">*</span></label>
+              <input type="text" class="form-control" id="clave-presentacion-input" placeholder="Ej. Caja con 50 ampolletas" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Categoría Hospitalaria <span class="required">*</span></label>
+              <select class="form-control" id="clave-categoria-input" required>
+                <option value="Código Mater / Emergencia Obstétrica">Código Mater / Emergencia Obstétrica</option>
+                <option value="Tocoquirúrgica y Quirófanos">Tocoquirúrgica y Quirófanos</option>
+                <option value="Gineco-Obstetricia y Hospitalización">Gineco-Obstetricia y Hospitalización</option>
+                <option value="UCIN y Neonatología">UCIN y Neonatología</option>
+                <option value="Soluciones y Electrólitos">Soluciones y Electrólitos</option>
+                <option value="Consulta Externa y Control Prenatal">Consulta Externa y Control Prenatal</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">¿Requiere Red de Frío? <span class="required">*</span></label>
+              <select class="form-control" id="clave-frio-input" required>
+                <option value="no">NO (Ambiente 15°C a 25°C)</option>
+                <option value="si">SÍ (Refrigeración 2°C a 8°C)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Costo Referencial ($ MXN)</label>
+              <input type="number" step="0.01" class="form-control" id="clave-costo-input" placeholder="Ej. 42.50">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Stock Mínimo de Seguridad</label>
+              <input type="number" class="form-control" id="clave-stock-min-input" value="50">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Stock Óptimo</label>
+              <input type="number" class="form-control" id="clave-stock-opt-input" value="200">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-nueva-clave">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar-clave">
+          <i class="fa-solid fa-check"></i> Registrar en Catálogo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 1: NUEVA ENTRADA DE MEDICAMENTO (ABASTO BIRMEX / ALMACÉN)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-nueva-entrada">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">
+          <i class="fa-solid fa-dolly"></i> Recepción de Medicamento / Abasto Hospitalario
+        </span>
+        <button class="modal-close-btn" data-close="modal-nueva-entrada">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-nueva-entrada">
+          <div class="form-grid">
+            <div class="form-group form-group-full">
+              <label class="form-label">Origen / Proveedor del Abasto <span class="required">*</span></label>
+              <select class="form-control" id="entrada-origen" required>
+                <option value="BIRMEX (Compra Consolidada Federal)">BIRMEX (Compra Consolidada Federal)</option>
+                <option value="Almacén Central Estatal IMSS-Bienestar Nayarit">Almacén Central Estatal IMSS-Bienestar Nayarit</option>
+                <option value="Megafarmacia del Bienestar">Megafarmacia del Bienestar (Suministro Emergente)</option>
+                <option value="Traspaso Interhospitalario (Red Nayarit)">Traspaso Interhospitalario (Hospital General de Tepic)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Documento de Amparo / Remisión <span class="required">*</span></label>
+              <input type="text" class="form-control" id="entrada-documento" placeholder="Ej. REM-BRX-NAY-89210" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Medicamento del Catálogo <span class="required">*</span></label>
+              <select class="form-control" id="entrada-medicamento-select" required>
+                <!-- Opciones cargadas dinámicamente -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Número de Lote <span class="required">*</span></label>
+              <input type="text" class="form-control" id="entrada-lote" placeholder="Ej. L-OX2609A" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Laboratorio Fabricante</label>
+              <input type="text" class="form-control" id="entrada-fabricante" placeholder="Ej. Laboratorios Pisa, S.A.">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fecha de Caducidad <span class="required">*</span></label>
+              <input type="date" class="form-control" id="entrada-caducidad" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cantidad Recibida (Piezas) <span class="required">*</span></label>
+              <input type="number" class="form-control" id="entrada-cantidad" min="1" placeholder="Ej. 200" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Costo Referencial Unitario ($ MXN)</label>
+              <input type="number" step="0.01" class="form-control" id="entrada-costo" placeholder="Ej. 42.50">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Verificación de Red de Frío (si aplica)</label>
+              <input type="text" class="form-control" id="entrada-temp" placeholder="Ej. 4.1°C verificado en andén">
+            </div>
+
+            <div class="form-group form-group-full">
+              <label class="form-label">Observaciones Técnicas de Recepción</label>
+              <input type="text" class="form-control" id="entrada-obs" placeholder="Sellos de seguridad intactos, empaque primario íntegro.">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-nueva-entrada">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar-entrada">
+          <i class="fa-solid fa-check"></i> Ingresar al Inventario
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: NUEVA SALIDA / DISPENSACIÓN (PEPS / FEFO)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-nueva-salida">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">
+          <i class="fa-solid fa-prescription-bottle-medical"></i> Dispensación de Insumos (PEPS / FEFO)
+        </span>
+        <button class="modal-close-btn" data-close="modal-nueva-salida">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-nueva-salida">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Tipo de Salida <span class="required">*</span></label>
+              <select class="form-control" id="salida-tipo" required>
+                <option value="Vale Colectivo Hospitalario">Vale Colectivo Hospitalario (Servicio)</option>
+                <option value="Receta Individual">Receta Individual (Paciente)</option>
+                <option value="Código Mater">Código Mater / Emergencia Obstétrica</option>
+                <option value="Dispensación Donación">Dispensación de Insumo Donado</option>
+                <option value="Merma o Rotura">Merma / Baja Técnica con Acta</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Servicio Solicitante <span class="required">*</span></label>
+              <select class="form-control" id="salida-servicio" required>
+                <option value="Tocoquirúrgica (Salas de Expulsión y Cesáreas)">Tocoquirúrgica (Expulsión y Cesáreas)</option>
+                <option value="Código Mater / Carro Rojo Obstétrico">Código Mater / Carro Rojo Obstétrico</option>
+                <option value="UCIN (Cuidados Intensivos Neonatales)">UCIN (Neonatología)</option>
+                <option value="Hospitalización Gineco-Obstétrica">Hospitalización Gineco-Obstétrica</option>
+                <option value="Triage Obstétrico y Urgencias Ginecológicas">Triage Obstétrico y Urgencias</option>
+                <option value="Consulta Externa y Control Prenatal">Consulta Externa y Control Prenatal</option>
+              </select>
+            </div>
+
+            <div class="form-group form-group-full">
+              <label class="form-label">Medicamento a Dispensar <span class="required">*</span></label>
+              <select class="form-control" id="salida-medicamento-select" required>
+                <!-- Dinámico -->
+              </select>
+            </div>
+
+            <!-- Sugerencia Automática de Lote PEPS / FEFO -->
+            <div class="form-group form-group-full">
+              <div class="peps-alert-box" id="peps-suggestion-box">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div id="peps-text">Seleccione un medicamento para calcular el lote prioritario por caducidad (PEPS).</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Lote Asignado <span class="required">*</span></label>
+              <select class="form-control" id="salida-lote-select" required>
+                <!-- Opciones de lotes del medicamento -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cantidad a Dispensar <span class="required">*</span></label>
+              <input type="number" class="form-control" id="salida-cantidad" min="1" placeholder="Ej. 10" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nombre de la Paciente / Destinatario</label>
+              <input type="text" class="form-control" id="salida-paciente" placeholder="Ej. Gómez Ruiz Carmen (o 'Stock Piso')">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">CURP / Expediente Hospitalario</label>
+              <input type="text" class="form-control" id="salida-expediente" placeholder="Ej. EXP-2026-8910">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Médico o Personal Solicitante <span class="required">*</span></label>
+              <input type="text" class="form-control" id="salida-medico" placeholder="Ej. Dr. Carlos Meza (Céd. 98124)" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Diagnóstico CIE-10 / Motivo</label>
+              <input type="text" class="form-control" id="salida-motivo" placeholder="Ej. Cesárea / Preeclampsia severa">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-nueva-salida">Cancelar</button>
+        <button class="btn btn-primary" id="btn-guardar-salida">
+          <i class="fa-solid fa-check"></i> Autorizar y Despachar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: REGISTRO DE DONACIÓN DE MEDICAMENTOS (ACTA OFICIAL COFEPRIS)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-nueva-donacion">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header header-purple">
+        <span class="modal-title">
+          <i class="fa-solid fa-hand-holding-heart"></i> Registro Formal de Donación de Medicamentos
+        </span>
+        <button class="modal-close-btn" data-close="modal-nueva-donacion">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-nueva-donacion">
+          <div class="form-grid">
+            <div class="form-group form-group-full">
+              <div style="background: var(--donacion-purple-bg); padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.76rem; color: #4c1d95;">
+                <i class="fa-solid fa-scale-balanced"></i> Conforme al Art. 40 y lineamientos de IMSS-Bienestar / COFEPRIS: Se genera Acta Oficial de Entrega-Recepción. Los insumos se integran con trazabilidad independiente y sin fines comerciales.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Folio Oficial de Acta <span class="required">*</span></label>
+              <input type="text" class="form-control" id="donacion-folio" readonly value="ACTA-DON-2026-003">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tipo de Donante <span class="required">*</span></label>
+              <select class="form-control" id="donacion-tipo-donante" required>
+                <option value="Asociación Civil / ONG">Asociación Civil / ONG</option>
+                <option value="Voluntariado Institucional">Voluntariado Institucional</option>
+                <option value="Persona Moral / Empresa">Persona Moral / Empresa</option>
+                <option value="Persona Física Particular">Persona Física Particular</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nombre o Razón Social del Donante <span class="required">*</span></label>
+              <input type="text" class="form-control" id="donacion-donante-nombre" placeholder="Ej. Fundación Salud y Vida Nayarit, A.C." required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">RFC / Identificación Oficial <span class="required">*</span></label>
+              <input type="text" class="form-control" id="donacion-donante-rfc" placeholder="Ej. FSV190412AA3" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Representante / Donante</label>
+              <input type="text" class="form-control" id="donacion-donante-rep" placeholder="Nombre completo">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Teléfono de Contacto</label>
+              <input type="text" class="form-control" id="donacion-donante-tel" placeholder="311-XXX-XXXX">
+            </div>
+
+            <div class="form-group form-group-full">
+              <label class="form-label">Medicamento Donado <span class="required">*</span></label>
+              <input type="text" class="form-control" id="donacion-medicamento" placeholder="Ej. Hierro Polimaltosado 100 mg / Ácido Fólico 5 mg" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Clave CNIS (si cuenta con ella)</label>
+              <input type="text" class="form-control" id="donacion-cnis" placeholder="Ej. 010.000.2145.00">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Número de Lote <span class="required">*</span></label>
+              <input type="text" class="form-control" id="donacion-lote" placeholder="Ej. DON-L-8902" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fecha de Caducidad <span class="required">*</span></label>
+              <input type="date" class="form-control" id="donacion-caducidad" required>
+              <span class="form-hint">Debe tener al menos 6 a 10 meses de vida útil restante.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cantidad Donada (Piezas) <span class="required">*</span></label>
+              <input type="number" class="form-control" id="donacion-cantidad" min="1" placeholder="Ej. 100" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Valor Estimado Referencial ($ MXN)</label>
+              <input type="number" step="0.01" class="form-control" id="donacion-valor" placeholder="Ej. 4500.00">
+            </div>
+
+            <div class="form-group form-group-full">
+              <label class="form-label">Justificación Sanitaria / Destino de la Donación</label>
+              <textarea class="form-control" id="donacion-motivo" rows="2" placeholder="Apoyo a mujeres gestantes y recién nacidos en condición de vulnerabilidad social de comunidades rurales."></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-nueva-donacion">Cancelar</button>
+        <button class="btn btn-purple" id="btn-guardar-donacion">
+          <i class="fa-solid fa-signature"></i> Generar Acta e Incorporar Insumos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: VISOR DE ACTA OFICIAL DE DONACIÓN (IMPRIMIBLE)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-visor-acta">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header header-purple">
+        <span class="modal-title">
+          <i class="fa-solid fa-file-contract"></i> Acta Oficial de Entrega-Recepción de Donación
+        </span>
+        <button class="modal-close-btn" data-close="modal-visor-acta">&times;</button>
+      </div>
+      <div class="modal-body" id="acta-imprimible-body">
+        <!-- Renderizado dinámico del formato del acta oficial -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-visor-acta">Cerrar</button>
+        <button class="btn btn-primary" onclick="window.print();">
+          <i class="fa-solid fa-print"></i> Imprimir Acta Oficial
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5: REPORTE EJECUTIVO OFICIAL CON LOGOTIPO INSTITUCIONAL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-reporte-ejecutivo-logo">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <span class="modal-title">
+          <i class="fa-solid fa-file-invoice"></i> Reporte Oficial de Farmacia Hospitalaria (IMSS-Bienestar)
+        </span>
+        <button class="modal-close-btn" data-close="modal-reporte-ejecutivo-logo">&times;</button>
+      </div>
+      <div class="modal-body" id="reporte-ejecutivo-imprimible-body">
+        <div class="printable-report-container">
+          <div class="report-official-header">
+            <div class="report-header-left">
+              <img src="Logo-hospital-de-la-mujer-servicios-de-salud-imss-bienestar.png" 
+                   alt="Logotipo Oficial IMSS-Bienestar" 
+                   class="report-logo-img">
+              <div class="report-header-text">
+                <h2>Servicios de Salud del IMSS para el Bienestar</h2>
+                <h3>Hospital de la Mujer de Tepic, Nayarit</h3>
+                <p>Programa Federal Nacional · Dirección de Operación y Abasto de Insumos para la Salud</p>
+                <p><strong>Unidad Médica:</strong> CLUES NTSMP000452 · Licencia Sanitaria COFEPRIS-NAY-HOSP-2024-0089</p>
+              </div>
+            </div>
+            <div class="report-header-meta">
+              <div class="report-meta-box">
+                <div><strong>FOLIO:</strong> REP-HMT-2026-0925</div>
+                <div><strong>FECHA:</strong> <span id="reporte-fecha-emision">2026-09-25</span></div>
+                <div><strong>HORA:</strong> <span id="reporte-hora-emision">08:00 hrs</span></div>
+                <div><strong>PERIODO:</strong> Mensual Consolidado</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border-left: 4px solid var(--imss-green-800); padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.8rem;">
+            <strong>DICTAMEN TÉCNICO DE FARMACIA Y ABASTO:</strong> Se certifica el estado del inventario físico, el cumplimiento de la norma <strong>PEPS / FEFO</strong> (Primeras Caducidades, Primeras Salidas), el estatus del <strong>Código Mater</strong> y el control de medicamentos recibidos por <strong>Donación Institucional</strong> en estricto apego a las disposiciones de la COFEPRIS.
+          </div>
+
+          <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.25rem;">
+            <div class="sub-kpi-box">
+              <div class="sub-kpi-label">Existencia Total</div>
+              <div class="sub-kpi-val" id="rep-kpi-existencia" style="color: var(--imss-green-800);">3,892 pzas</div>
+            </div>
+            <div class="sub-kpi-box">
+              <div class="sub-kpi-label">Nivel de Abasto</div>
+              <div class="sub-kpi-val" id="rep-kpi-abasto" style="color: var(--imss-green-700);">98.4%</div>
+            </div>
+            <div class="sub-kpi-box">
+              <div class="sub-kpi-label">Lotes en Alerta (PEPS)</div>
+              <div class="sub-kpi-val" id="rep-kpi-alertas" style="color: var(--sem-rojo);">2 lotes</div>
+            </div>
+            <div class="sub-kpi-box">
+              <div class="sub-kpi-label">Insumos Donados</div>
+              <div class="sub-kpi-val" id="rep-kpi-donados" style="color: var(--donacion-purple);">207 pzas</div>
+            </div>
+          </div>
+
+          <h4 style="font-family: var(--font-heading); font-size: 0.88rem; color: var(--slate-800); margin-bottom: 0.5rem; text-transform: uppercase;">
+            1. Insumos Críticos del Código Mater y Emergencia Obstétrica
+          </h4>
+          <table class="custom-table" style="margin-bottom: 1.25rem; font-size: 0.78rem;">
+            <thead>
+              <tr style="background: #f1f5f9;">
+                <th>Clave CNIS</th>
+                <th>Medicamento</th>
+                <th>Concentración</th>
+                <th>Stock Físico</th>
+                <th>Mínimo</th>
+                <th>Estatus</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-reporte-mater">
+              <!-- Dinámico -->
+            </tbody>
+          </table>
+
+          <h4 style="font-family: var(--font-heading); font-size: 0.88rem; color: var(--slate-800); margin-bottom: 0.5rem; text-transform: uppercase;">
+            2. Auditoría de Caducidades Próximas (Semáforo PEPS / FEFO)
+          </h4>
+          <table class="custom-table" style="margin-bottom: 1.5rem; font-size: 0.78rem;">
+            <thead>
+              <tr style="background: #f1f5f9;">
+                <th>Lote</th>
+                <th>Medicamento</th>
+                <th>Caducidad</th>
+                <th>Días Restantes</th>
+                <th>Piezas</th>
+                <th>Acción Regulatoria</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-reporte-caducidades">
+              <!-- Dinámico -->
+            </tbody>
+          </table>
+
+          <div class="acta-signatures" style="margin-top: 2.5rem;">
+            <div class="signature-line">
+              <strong>Q.F.B. Mariana E. Ramos Peña</strong><br>
+              Responsable Sanitaria de Farmacia Hospitalaria<br>
+              Céd. Prof. 8492019
+            </div>
+            <div class="signature-line">
+              <strong>Dr. Jorge Arturo Valdez Estrada</strong><br>
+              Subdirector Médico del Hospital de la Mujer<br>
+              Céd. Esp. 4102981
+            </div>
+          </div>
+
+          <div class="acta-signatures" style="margin-top: 1.5rem;">
+            <div class="signature-line">
+              <strong>C.P. Rosa Elena Miramontes</strong><br>
+              Administradora de la Unidad Hospitalaria
+            </div>
+            <div class="signature-line">
+              <strong>Lic. Fernando Bañuelos</strong><br>
+              Representante del Órgano Interno de Control (OIC)
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-reporte-ejecutivo-logo">Cerrar</button>
+        <button class="btn btn-primary" onclick="window.print();">
+          <i class="fa-solid fa-print"></i> Imprimir Reporte Oficial
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 6: COMPROBANTE OFICIAL DE SURTIMIENTO / VALE (CON LOGO)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-vale-salida-logo">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">
+          <i class="fa-solid fa-receipt"></i> Vale Oficial de Dispensación Farmacéutica
+        </span>
+        <button class="modal-close-btn" data-close="modal-vale-salida-logo">&times;</button>
+      </div>
+      <div class="modal-body" id="vale-salida-imprimible-body">
+        <!-- Renderizado dinámico del ticket con logotipo -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-vale-salida-logo">Cerrar</button>
+        <button class="btn btn-primary" onclick="window.print();">
+          <i class="fa-solid fa-print"></i> Imprimir Comprobante
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 7: BITÁCORA INMUTABLE DE AUDITORÍA (AUDIT TRAIL / SEGURIDAD)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-bitacora-auditoria">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+        <span class="modal-title">
+          <i class="fa-solid fa-shield-halved" style="color: #38bdf8;"></i> Bitácora Inmutable de Auditoría Sanitaria (NOM-024-SSA3)
+        </span>
+        <button class="modal-close-btn" data-close="modal-bitacora-auditoria">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.78rem; margin-bottom: 1rem; color: #334155;">
+          <i class="fa-solid fa-lock"></i> <strong>Registro de Trazabilidad Criptográfica:</strong> Todas las transacciones de entrada, dispensación PEPS, canje BIRMEX y actas de donación quedan registradas con huella temporal, usuario y terminal autorizada para efectos de fiscalización por el Órgano Interno de Control y la Auditoría Superior de la Federación.
+        </div>
+
+        <div class="table-responsive" style="max-height: 380px;">
+          <table class="custom-table" id="tabla-audit-logs">
+            <thead>
+              <tr>
+                <th>Fecha y Hora</th>
+                <th>Usuario Responsable</th>
+                <th>Rol</th>
+                <th>Acción Realizada</th>
+                <th>Entidad / Insumo</th>
+                <th>Terminal / IP</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-audit-logs">
+              <!-- Renderizado dinámico de logs -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-bitacora-auditoria">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 8: PANTALLA DE BLOQUEO DE TERMINAL (SEGURIDAD NOM-024-SSA3)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-bloqueo-terminal" style="backdrop-filter: blur(15px); background: rgba(8, 52, 36, 0.88);">
+    <div class="modal-dialog" style="max-width: 440px; text-align: center; border: 2px solid var(--imss-gold-500); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+      <div class="modal-header" style="background: linear-gradient(135deg, var(--imss-green-900), var(--imss-green-800)); justify-content: center;">
+        <span class="modal-title" style="color: #ffffff; font-size: 0.95rem;">
+          <i class="fa-solid fa-shield-halved" style="color: var(--imss-gold-500);"></i> Terminal Bloqueada por Seguridad
+        </span>
+      </div>
+      <div class="modal-body" style="padding: 1.75rem 1.5rem;">
+        <img src="Logo-hospital-de-la-mujer-servicios-de-salud-imss-bienestar.png" 
+             alt="Hospital de la Mujer Tepic" 
+             style="height: 60px; width: auto; margin-bottom: 1rem; background: #fff; padding: 4px 8px; border-radius: 6px;">
+        
+        <h3 style="font-family: var(--font-heading); font-size: 1.05rem; color: var(--imss-green-900); margin-bottom: 0.25rem;">
+          Hospital de la Mujer de Tepic, Nayarit
+        </h3>
+        <p style="font-size: 0.76rem; color: var(--slate-500); margin-bottom: 1.25rem;">
+          Módulo de Farmacia Hospitalaria · Servicios de Salud IMSS-Bienestar
+        </p>
+
+        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.85rem; text-align: left;">
+          <div class="user-avatar-circle" id="lock-avatar" style="width: 42px; height: 42px; font-size: 1rem; flex-shrink: 0;">MR</div>
+          <div style="overflow: hidden;">
+            <div style="font-weight: 700; font-size: 0.86rem; color: var(--slate-900);" id="lock-user-name">Q.F.B. Mariana E. Ramos</div>
+            <div style="font-size: 0.72rem; color: var(--imss-green-700); font-weight: 600;" id="lock-user-role">Responsable Sanitaria de Farmacia</div>
+            <div style="font-size: 0.68rem; color: var(--slate-400); font-family: monospace;">CLUES: NTSMP000452 · Terminal 01-FARM</div>
+          </div>
+        </div>
+
+        <p style="font-size: 0.78rem; color: var(--slate-600); margin-bottom: 0.75rem;">
+          Para reanudar operaciones hospitalarias, ingrese su <strong>NIP institucional</strong> de seguridad (4 dígitos):
+        </p>
+
+        <form id="form-desbloqueo-pin" onsubmit="event.preventDefault(); window.FarmaciaApp.desbloquearTerminal();" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+          <input type="password" 
+                 id="input-pin-desbloqueo" 
+                 maxlength="6" 
+                 inputmode="numeric" 
+                 pattern="[0-9]*" 
+                 placeholder="••••" 
+                 autocomplete="off"
+                 style="text-align: center; font-size: 1.75rem; letter-spacing: 0.6rem; font-weight: 800; width: 180px; padding: 0.5rem; border: 2px solid var(--imss-green-700); border-radius: 8px; background: #ffffff;">
+          
+          <div id="pin-error-msg" style="color: var(--sem-rojo); font-size: 0.78rem; font-weight: 600; display: none;">
+            <i class="fa-solid fa-triangle-exclamation"></i> NIP incorrecto. Intente nuevamente.
+          </div>
+
+          <div style="font-size: 0.7rem; color: var(--slate-400); margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-circle-info"></i> NIP institucional predeterminado de demostración: <strong>1234</strong>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
+            <i class="fa-solid fa-unlock-keyhole"></i> Desbloquear Terminal
+          </button>
+        </form>
+      </div>
+      <div class="modal-footer" style="justify-content: center; background: #f8fafc; font-size: 0.72rem; color: var(--slate-500);">
+        <i class="fa-solid fa-lock"></i> Protocolo de Seguridad Sanitaria NOM-024-SSA3 / COFEPRIS
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 9: ESTADO DE SEGURIDAD WEB Y CUMPLIMIENTO REGULATORIO
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-estado-seguridad">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header" style="background: linear-gradient(135deg, var(--imss-green-900), #1e293b);">
+        <span class="modal-title" style="color: #ffffff;">
+          <i class="fa-solid fa-shield-halved" style="color: #4ade80;"></i> Diagnóstico de Seguridad Web y Cumplimiento Normativo
+        </span>
+        <button class="modal-close-btn" data-close="modal-estado-seguridad">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; gap: 1rem; background: var(--imss-green-50); border-left: 4px solid var(--imss-green-800); padding: 1rem; border-radius: 6px; margin-bottom: 1.25rem;">
+          <i class="fa-solid fa-circle-check" style="color: var(--imss-green-700); font-size: 2rem;"></i>
+          <div>
+            <h4 style="font-size: 0.95rem; color: var(--imss-green-900); font-weight: 700; margin-bottom: 2px;">
+              Entorno Web Protegido y Cifrado
+            </h4>
+            <p style="font-size: 0.78rem; color: var(--slate-600); margin: 0;">
+              El sistema cumple con los estándares de ciberseguridad para infraestructuras críticas del Sistema Nacional de Salud y la COFEPRIS.
+            </p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: #ffffff; border: 1px solid var(--slate-200); border-radius: 8px; padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--imss-green-800); font-weight: 700; font-size: 0.85rem;">
+              <i class="fa-solid fa-lock"></i> 1. Cifrado y Transporte
+            </div>
+            <ul style="font-size: 0.76rem; color: var(--slate-600); padding-left: 1.25rem; line-height: 1.6;">
+              <li><strong>Protocolo:</strong> TLS 1.3 / HTTPS Obligatorio</li>
+              <li><strong>HSTS:</strong> max-age=63072000; includeSubDomains; preload</li>
+              <li><strong>Certificado:</strong> Cifrado asimétrico RSA 2048 / ECC 256 bits</li>
+            </ul>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid var(--slate-200); border-radius: 8px; padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--imss-green-800); font-weight: 700; font-size: 0.85rem;">
+              <i class="fa-solid fa-shield-virus"></i> 2. Headers de Protección Web
+            </div>
+            <ul style="font-size: 0.76rem; color: var(--slate-600); padding-left: 1.25rem; line-height: 1.6;">
+              <li><strong>X-Frame-Options:</strong> SAMEORIGIN (Anti-Clickjacking)</li>
+              <li><strong>X-Content-Type-Options:</strong> nosniff (Anti-MIME Sniffing)</li>
+              <li><strong>Content-Security-Policy (CSP):</strong> Restricción estricta de fuentes</li>
+              <li><strong>Referrer-Policy:</strong> strict-origin-when-cross-origin</li>
+            </ul>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid var(--slate-200); border-radius: 8px; padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--imss-green-800); font-weight: 700; font-size: 0.85rem;">
+              <i class="fa-solid fa-user-shield"></i> 3. Control de Acceso RBAC
+            </div>
+            <ul style="font-size: 0.76rem; color: var(--slate-600); padding-left: 1.25rem; line-height: 1.6;">
+              <li>4 perfiles con segregación estricta de funciones</li>
+              <li>Bloqueo preventivo de terminal por inactividad</li>
+              <li>Verificación de cédula profesional para medicamentos controlados</li>
+            </ul>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid var(--slate-200); border-radius: 8px; padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--imss-green-800); font-weight: 700; font-size: 0.85rem;">
+              <i class="fa-solid fa-file-contract"></i> 4. Cumplimiento Regulatorio
+            </div>
+            <ul style="font-size: 0.76rem; color: var(--slate-600); padding-left: 1.25rem; line-height: 1.6;">
+              <li><strong>NOM-024-SSA3-2012:</strong> Sistemas de Registro Clínico y Farmacéutico</li>
+              <li><strong>COFEPRIS:</strong> Trazabilidad PEPS / FEFO y Actas de Donación</li>
+              <li><strong>Bitácora:</strong> Registro inmutable con sello de tiempo ISO 8601</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-estado-seguridad">Cerrar</button>
+        <button class="btn btn-primary" onclick="alert('Diagnóstico de seguridad validado. Todos los controles de navegación segura están activos.');">
+          <i class="fa-solid fa-circle-check"></i> Certificar Cumplimiento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elemento Tooltip flotante para gráficas SVG -->
+  <div id="chart-tooltip" class="chart-tooltip"></div>
+
+  <!-- Scripts del Sistema -->
+  <!-- Librería SheetJS para exportar e importar Excel .xlsx -->
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="js/sample-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

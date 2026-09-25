@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+npm-debug.log
+.DS_Store
+.env
+.env.local
+.env.production
+database/*.dump
+database/*.backup
+README.md
