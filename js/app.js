@@ -76,6 +76,20 @@
     setupModals();
     setupDropzone();
     renderAll();
+    verificarEstadoBaseDatos();
+  }
+
+  function verificarEstadoBaseDatos() {
+    fetch('/api/db-status')
+      .then(res => res.json())
+      .then(data => {
+        const textEl = document.getElementById('db-status-text');
+        if (data.connected && textEl) {
+          textEl.textContent = 'PostgreSQL Nube Conectado';
+          textEl.parentElement.title = `Conectado a Neon PostgreSQL (${data.database})`;
+        }
+      })
+      .catch(() => {});
   }
 
   function loadState() {

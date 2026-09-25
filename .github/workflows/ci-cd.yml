@@ -1,0 +1,72 @@
+name: CI/CD Hospital de la Mujer - Farmacia IMSS-Bienestar
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  validate-and-test:
+    name: Validar Sintaxis, Seguridad y Pruebas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar Repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Dependencias
+        run: npm ci || npm install
+
+      - name: Validar Sintaxis de Scripts JavaScript
+        run: |
+          node --check js/sample-data.js
+          node --check js/app.js
+
+      - name: Validar Integridad de Esquema SQL
+        run: |
+          head -n 20 database/schema.sql
+
+  docker-build-test:
+    name: Probar Construcción de Imagen Docker
+    needs: validate-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar Repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Construir Imagen Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: hospital-mujer-farmacia:latest
+
+  deploy-vercel:
+    name: Despliegue en Vercel
+    needs: validate-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar Repositorio
+        uses: actions/checkout@v4
+
+      - name: Desplegar a Vercel Producción
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+        continue-on-error: true
